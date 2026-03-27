@@ -34,18 +34,9 @@
 <h2>Products</h2>
 
 <div class="products-grid">
-  <% @products.each do |product| %>
-    <div class="product-card">
-      <% if product.image_url.present? %>
-        <img src="<%= product.image_url %>" alt="<%= product.title %>" width="200">
-      <% end %>
-
-      <h3><%= link_to product.title, product_path(product) %></h3>
-      <p><strong>Category:</strong> <%= product.category.name %></p>
-      <p><%= truncate(product.description, length: 100) %></p>
-      <p><strong>Price:</strong> $<%= sprintf("%.2f", product.price) %></p>
-    </div>
-  <% end %>
+    <% @products.each do |product| %>
+        <%= render partial: "product_card", locals: { product: product } %>
+    <% end %>
 </div>
 
 <div>
