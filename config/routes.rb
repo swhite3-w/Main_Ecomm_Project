@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   get "products/:id", to: "store#show", as: :product
   get "categories/:id", to: "store#category", as: :category
   get "about", to: "store#about"
+  get "contact", to: "store#contact"
 end
