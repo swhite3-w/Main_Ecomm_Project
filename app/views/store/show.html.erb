@@ -1,2 +1,15 @@
-<h1>Store#show</h1>
-<p>Find me in app/views/store/show.html.erb</p>
+<h1><%= @product.title %></h1>
+
+<% if @product.image_url.present? %>
+  <img src="<%= @product.image_url %>" alt="<%= @product.title %>" width="300">
+<% end %>
+
+<p><strong>Category:</strong> <%= @product.category.name %></p>
+<p><strong>Price:</strong> $<%= sprintf("%.2f", @product.price) %></p>
+<p><strong>Stock Quantity:</strong> <%= @product.stock_quantity %></p>
+<p><strong>Featured:</strong> <%= @product.is_featured ? "Yes" : "No" %></p>
+<p><strong>Active:</strong> <%= @product.is_active ? "Yes" : "No" %></p>
+
+<p><%= @product.description %></p>
+
+<p><%= link_to "Back to Home", root_path %></p>
