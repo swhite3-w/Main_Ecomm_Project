@@ -13,11 +13,13 @@
         include_blank: "All Categories" %>
   </div>
 
-  <div>
-    <%= label_tag :filter, "Filter" %>
-    <%= select_tag :filter,
-        options_for_select([["All", ""], ["Featured", "featured"], ["Active", "active"]], params[:filter]) %>
-  </div>
+<%= select_tag :filter,
+  options_for_select([
+    ["All", ""],
+    ["New", "new"],
+    ["Recently Updated", "recent"],
+    ["On Sale", "on_sale"]
+  ], params[:filter]) %>
 
   <%= submit_tag "Search" %>
 <% end %>

@@ -14,10 +14,13 @@ class StoreController < ApplicationController
 
     if params[:filter].present?
       case params[:filter]
-      when "featured"
-        @products = @products.where(is_featured: true)
-      when "active"
-        @products = @products.where(is_active: true)
+      when "new"
+       @products = @products.where("created_at >= ?", 3.days.ago)
+      when "recent"
+        @products = @products.where("updated_at >= ?", 3.days.ago)
+                             .where("created_at < ?", 3.days.ago)
+      when "on_sale"
+       @products = @products.where("price < ?", 50) # simple version
       end
     end
 
