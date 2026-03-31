@@ -12,4 +12,8 @@
 
 <p><%= @product.description %></p>
 
+<p>
+  <%= button_to "Add to Cart", add_to_cart_path(@product), method: :post %>
+</p>
+
 <p><%= link_to "Back to Home", root_path %></p>

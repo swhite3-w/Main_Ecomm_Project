@@ -6,4 +6,6 @@
   <h3><%= link_to product.title, product_path(product) %></h3>
   <p><%= truncate(product.description, length: 80) %></p>
   <p>$<%= sprintf("%.2f", product.price) %></p>
+
+  <%= button_to "Add to Cart", add_to_cart_path(product), method: :post %>
 </div>
