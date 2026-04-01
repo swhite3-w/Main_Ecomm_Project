@@ -24,7 +24,7 @@ class StoreController < ApplicationController
       end
     end
 
-    @products = @products.page(params[:page]).per(8)
+    @products = @products.page(params[:page]).per(14)
   end
 
   def show
@@ -34,7 +34,7 @@ class StoreController < ApplicationController
   def category
     @category = Category.find(params[:id])
     @categories = Category.order(:name)
-    @products = @category.products.order(created_at: :desc).page(params[:page]).per(8)
+    @products = @category.products.order(created_at: :desc).page(params[:page]).per(14)
   end
 
   def about
