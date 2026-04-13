@@ -17,4 +17,9 @@ Rails.application.routes.draw do
   post "cart/add/:id", to: "store#add_to_cart", as: :add_to_cart
   patch "cart/update/:id", to: "store#update_cart", as: :update_cart
   delete "cart/remove/:id", to: "store#remove_from_cart", as: :remove_from_cart
+
+  get "checkout", to: "store#checkout", as: :checkout
+  post "place_order", to: "store#place_order", as: :place_order
+  get "orders/:id", to: "store#order_confirmation", as: :order_confirmation
+
 end
