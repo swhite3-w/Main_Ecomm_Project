@@ -1,0 +1,49 @@
+<h1>Checkout</h1>
+
+<% if @cart_items.empty? %>
+  <p>Your cart is empty.</p>
+  <p><%= link_to "Back to Cart", cart_path %></p>
+<% else %>
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Item Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @cart_items.each do |item| %>
+        <tr>
+          <td><%= item[:product].title %></td>
+          <td>$<%= sprintf("%.2f", item[:product].price) %></td>
+          <td><%= item[:quantity] %></td>
+          <td>$<%= sprintf("%.2f", item[:line_total]) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <h2>Subtotal: $<%= sprintf("%.2f", @subtotal) %></h2>
+
+  <%= form_with url: place_order_path, method: :post, local: true do %>
+    <div>
+      <%= label_tag :customer_name, "Full Name" %><br>
+      <%= text_field_tag :customer_name %>
+    </div>
+
+    <div>
+      <%= label_tag :customer_email, "Email" %><br>
+      <%= email_field_tag :customer_email %>
+    </div>
+
+    <div>
+      <%= label_tag :province_id, "Province" %><br>
+      <%= select_tag :province_id, options_from_collection_for_select(@provinces, :id, :name) %>
+    </div>
+
+    <br>
+    <%= submit_tag "Place Order" %>
+  <% end %>
+<% end %>

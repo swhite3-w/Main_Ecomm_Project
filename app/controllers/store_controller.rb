@@ -146,10 +146,13 @@ class StoreController < ApplicationController
 
     customer = Customer.find_or_create_by!(email: params[:customer_email]) do |c|
       c.full_name = params[:customer_name]
-      c.province = province
+      c.province_code = province.code
     end
 
-    customer.update!(full_name: params[:customer_name], province: province)
+    customer.update!(
+      full_name: params[:customer_name],
+      province_code: province.code
+    )
 
     subtotal = 0
     cart_products = []

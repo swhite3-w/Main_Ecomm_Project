@@ -34,6 +34,7 @@
   </table>
 
   <h2>Total: $<%= sprintf("%.2f", @cart_total) %></h2>
+  <p><%= link_to "Proceed to Checkout", checkout_path %></p>
 <% end %>
 
 <p><%= link_to "Continue Shopping", root_path %></p>
