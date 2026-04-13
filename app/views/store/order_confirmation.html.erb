@@ -1,0 +1,40 @@
+<h1>Order Confirmation</h1>
+
+<p><strong>Order ID:</strong> <%= @order.id %></p>
+<p><strong>Status:</strong> <%= @order.status %></p>
+<p><strong>Name:</strong> <%= @order.customer.full_name %></p>
+<p><strong>Email:</strong> <%= @order.customer.email %></p>
+<p><strong>Province:</strong> <%= @order.customer.province.name %></p>
+
+<h2>Order Items</h2>
+
+<table class="cart-table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+      <th>Line Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @order.order_items.each do |item| %>
+      <tr>
+        <td><%= item.product.title %></td>
+        <td><%= item.quantity %></td>
+        <td>$<%= sprintf("%.2f", item.unit_price) %></td>
+        <td>$<%= sprintf("%.2f", item.line_total) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p><strong>GST Rate Used:</strong> <%= (@order.gst_rate * 100).round(2) %>%</p>
+<p><strong>PST Rate Used:</strong> <%= (@order.pst_rate * 100).round(2) %>%</p>
+<p><strong>HST Rate Used:</strong> <%= (@order.hst_rate * 100).round(2) %>%</p>
+
+<h3>Subtotal: $<%= sprintf("%.2f", @order.subtotal) %></h3>
+<h3>Tax: $<%= sprintf("%.2f", @order.tax_total) %></h3>
+<h3>Grand Total: $<%= sprintf("%.2f", @order.grand_total) %></h3>
+
+<p><%= link_to "Back to Home", root_path %></p>

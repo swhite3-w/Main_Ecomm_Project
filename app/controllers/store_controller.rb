@@ -134,25 +134,26 @@ class StoreController < ApplicationController
   end
 
   def place_order
-    session[:cart] ||= {}
+  session[:cart] ||= {}
 
-    if session[:cart].empty?
-      flash[:alert] = "Your cart is empty."
-      redirect_to cart_path
-      return
-    end
+  if session[:cart].empty?
+    flash[:alert] = "Your cart is empty."
+    redirect_to cart_path
+    return
+  end
 
-    province = Province.find(params[:province_id])
+  begin
+   province = Province.find(params[:province_id])
 
-    customer = Customer.find_or_create_by!(email: params[:customer_email]) do |c|
-      c.full_name = params[:customer_name]
-      c.province_code = province.code
-    end
+customer = Customer.find_or_create_by!(email: params[:customer_email]) do |c|
+  c.full_name = params[:customer_name]
+  c.province = province
+end
 
-    customer.update!(
-      full_name: params[:customer_name],
-      province_code: province.code
-    )
+customer.update!(
+  full_name: params[:customer_name],
+  province: province
+)
 
     subtotal = 0
     cart_products = []
@@ -199,13 +200,17 @@ class StoreController < ApplicationController
         quantity: item[:quantity],
         unit_price: item[:unit_price],
         line_total: item[:line_total]
-     )
+      )
     end
 
     session[:cart] = {}
-    flash[:notice] = "Order placed successfully."
-
+    flash[:notice] = "Order #{order.id} placed successfully."
     redirect_to order_confirmation_path(order)
+
+  rescue => e
+    flash[:alert] = "Order failed: #{e.message}"
+    redirect_to checkout_path
+  end
   end
 
   def order_confirmation
