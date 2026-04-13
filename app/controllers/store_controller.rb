@@ -143,17 +143,17 @@ class StoreController < ApplicationController
   end
 
   begin
-   province = Province.find(params[:province_id])
+    province = Province.find(params[:province_id])
 
-customer = Customer.find_or_create_by!(email: params[:customer_email]) do |c|
-  c.full_name = params[:customer_name]
-  c.province = province
-end
+    customer = Customer.find_or_create_by!(email: params[:customer_email]) do |c|
+      c.full_name = params[:customer_name]
+      c.province = province
+    end
 
-customer.update!(
-  full_name: params[:customer_name],
-  province: province
-)
+    customer.update!(
+      full_name: params[:customer_name],
+      province: province
+    )
 
     subtotal = 0
     cart_products = []
@@ -206,12 +206,7 @@ customer.update!(
     session[:cart] = {}
     flash[:notice] = "Order #{order.id} placed successfully."
     redirect_to order_confirmation_path(order)
-
-  rescue => e
-    flash[:alert] = "Order failed: #{e.message}"
-    redirect_to checkout_path
-  end
-  end
+    end
 
   def order_confirmation
     @order = Order.find(params[:id])
