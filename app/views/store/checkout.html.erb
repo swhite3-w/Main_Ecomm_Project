@@ -2,48 +2,78 @@
 
 <% if @cart_items.empty? %>
   <p>Your cart is empty.</p>
-  <p><%= link_to "Back to Cart", cart_path %></p>
+  <p><%= link_to "Return to Cart", cart_path %></p>
 <% else %>
-  <table class="cart-table">
+  <h2>Order Items</h2>
+
+  <table>
     <thead>
       <tr>
         <th>Product</th>
-        <th>Price</th>
         <th>Quantity</th>
-        <th>Item Total</th>
+        <th>Line Total</th>
       </tr>
     </thead>
     <tbody>
       <% @cart_items.each do |item| %>
         <tr>
           <td><%= item[:product].title %></td>
-          <td>$<%= sprintf("%.2f", item[:product].price) %></td>
           <td><%= item[:quantity] %></td>
-          <td>$<%= sprintf("%.2f", item[:line_total]) %></td>
+          <td><%= number_to_currency(item[:line_total]) %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
 
-  <h2>Subtotal: $<%= sprintf("%.2f", @subtotal) %></h2>
+  <hr>
+
+  <%= form_with url: checkout_path, method: :get, local: true do %>
+    <div>
+      <%= label_tag :province_id, "Select Province to Preview Taxes" %><br>
+      <%= select_tag :province_id,
+          options_from_collection_for_select(@provinces, :id, :name, @selected_province&.id),
+          prompt: "Choose a province",
+          onchange: "this.form.submit();" %>
+    </div>
+  <% end %>
+
+  <h2>Order Summary</h2>
+  <p><strong>Subtotal:</strong> <%= number_to_currency(@subtotal) %></p>
+  <p><strong>GST:</strong> <%= number_to_currency(@gst_total) %></p>
+  <p><strong>PST:</strong> <%= number_to_currency(@pst_total) %></p>
+  <p><strong>HST:</strong> <%= number_to_currency(@hst_total) %></p>
+  <p><strong>Estimated Grand Total:</strong> <%= number_to_currency(@grand_total) %></p>
+
+  <hr>
+
+  <h2>Customer Information</h2>
 
   <%= form_with url: place_order_path, method: :post, local: true do %>
     <div>
       <%= label_tag :customer_name, "Full Name" %><br>
-      <%= text_field_tag :customer_name %>
-    </div>
-
-    <div>
-      <%= label_tag :customer_email, "Email" %><br>
-      <%= email_field_tag :customer_email %>
-    </div>
-
-    <div>
-      <%= label_tag :province_id, "Province" %><br>
-      <%= select_tag :province_id, options_from_collection_for_select(@provinces, :id, :name) %>
+      <%= text_field_tag :customer_name, params[:customer_name] %>
     </div>
 
     <br>
-    <%= submit_tag "Place Order" %>
+
+    <div>
+      <%= label_tag :customer_email, "Email Address" %><br>
+      <%= email_field_tag :customer_email, params[:customer_email] %>
+    </div>
+
+    <br>
+
+    <div>
+      <%= label_tag :province_id, "Province" %><br>
+      <%= select_tag :province_id,
+          options_from_collection_for_select(@provinces, :id, :name, @selected_province&.id),
+          prompt: "Choose a province" %>
+    </div>
+
+    <br>
+
+    <div>
+      <%= submit_tag "Place Order" %>
+    </div>
   <% end %>
 <% end %>

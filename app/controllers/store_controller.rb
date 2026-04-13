@@ -131,6 +131,25 @@ class StoreController < ApplicationController
     end
 
     @provinces = Province.order(:name)
+
+    selected_province_id = params[:province_id].presence
+    selected_province_id ||= params.dig(:order, :province_id).presence
+
+    @selected_province = Province.find_by(id: selected_province_id)
+
+    if @selected_province
+      @gst_total = @subtotal * @selected_province.gst_rate
+      @pst_total = @subtotal * @selected_province.pst_rate
+      @hst_total = @subtotal * @selected_province.hst_rate
+      @tax_total = @gst_total + @pst_total + @hst_total
+      @grand_total = @subtotal + @tax_total
+    else
+      @gst_total = 0
+      @pst_total = 0
+      @hst_total = 0
+      @tax_total = 0
+      @grand_total = @subtotal
+    end
   end
 
   def place_order
