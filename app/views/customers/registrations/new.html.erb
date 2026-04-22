@@ -5,16 +5,26 @@
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "auth-form" }) do |f| %>
     <%= render "customers/shared/error_messages", resource: resource %>
 
-    <div class="auth-grid">
+    <div class="auth-grid auth-grid-signup">
+      <div class="auth-field">
+        <%= f.label :full_name, "Full Name" %>
+        <%= f.text_field :full_name, autocomplete: "name" %>
+      </div>
+
       <div class="auth-field">
         <%= f.label :email %>
         <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
       </div>
 
       <div class="auth-field">
+        <%= f.label :province_id, "Province" %>
+        <%= f.collection_select :province_id, Province.order(:name), :id, :name, { prompt: "Choose a province" }, {} %>
+      </div>
+
+      <div class="auth-field">
         <%= f.label :password %>
         <% if @minimum_password_length %>
-          <p class="auth-help">(<%= @minimum_password_length %> characters minimum)</p>
+          <p class="auth-help"><%= @minimum_password_length %> characters minimum</p>
         <% end %>
         <%= f.password_field :password, autocomplete: "new-password" %>
       </div>
@@ -26,7 +36,7 @@
     </div>
 
     <div class="auth-actions">
-      <%= f.submit "Sign Up", class: "primary-button auth-submit" %>
+      <%= f.submit "Sign Up", class: "auth-submit" %>
     </div>
   <% end %>
 
