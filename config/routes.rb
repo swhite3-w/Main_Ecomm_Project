@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   get "store/show"
   get "store/category"
   get "store/about"
+
   devise_for :admin_users, ActiveAdmin::Devise.config
+  devise_for :customers
+
   ActiveAdmin.routes(self)
 
   root "store#index"
@@ -21,5 +24,4 @@ Rails.application.routes.draw do
   get "checkout", to: "store#checkout", as: :checkout
   post "place_order", to: "store#place_order", as: :place_order
   get "orders/:id", to: "store#order_confirmation", as: :order_confirmation
-
 end
