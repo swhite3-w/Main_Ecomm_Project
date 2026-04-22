@@ -4,7 +4,7 @@
   </div>
 
   <div class="product-card-body">
-    <h3 class="product-title"><%= product.title %></h3>
+    <h2 class="product-title"><%= product.title %></h2>
 
     <% if product.respond_to?(:category) && product.category.present? %>
       <p class="product-meta"><strong>Category:</strong> <%= product.category.name %></p>
@@ -20,11 +20,10 @@
 
     <div class="product-actions">
       <%= link_to "View Details", product_path(product), class: "button-link secondary-button" %>
-      <%= button_to "Add to Cart",
+      <%= link_to "Add to Cart",
         add_to_cart_path(product),
-        method: :post,
-        class: "add-to-cart-btn",
-        form_class: "add-to-cart-form" %>
+        data: { turbo_method: :post },
+        class: "button-link add-to-cart-btn" %>
         
     </div>
   </div>

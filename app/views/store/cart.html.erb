@@ -37,11 +37,10 @@
               <td>$<%= sprintf("%.2f", item[:subtotal]) %></td>
 
               <td>
-                <%= button_to "Remove",
-                    remove_from_cart_path(item[:product]),
-                    method: :delete,
-                    class: "cart-remove-btn",
-                    form_class: "cart-remove-form" %>
+                <%= link_to "Remove",
+                  remove_from_cart_path(item[:product]),
+                  data: { turbo_method: :delete },
+                  class: "button-link cart-remove-btn" %>
               </td>
             </tr>
           <% end %>
