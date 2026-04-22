@@ -20,7 +20,12 @@
 
     <div class="product-actions">
       <%= link_to "View Details", product_path(product), class: "button-link secondary-button" %>
-      <%= button_to "Add to Cart", add_to_cart_path(product), method: :post %>
+      <%= button_to "Add to Cart",
+        add_to_cart_path(product),
+        method: :post,
+        class: "add-to-cart-btn",
+        form_class: "add-to-cart-form" %>
+        
     </div>
   </div>
 </div>

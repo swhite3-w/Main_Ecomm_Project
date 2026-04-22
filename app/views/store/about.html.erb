@@ -1,2 +1,35 @@
-<h1><%= @page&.title || "About" %></h1>
-<p><%= @page&.content || "About page coming soon." %></p>
+<div class="content-card">
+  <h1>About ArtForYou</h1>
+
+  <p class="section-subtext">
+    ArtForYou is a full-stack web application designed to showcase and manage a digital art collection.
+  </p>
+
+  <div style="margin-top: 16px; line-height: 1.6;">
+    <p>
+      This project was developed as part of a full-stack web development program, with a focus on building a complete
+      e-commerce-style experience from database to user interface.
+    </p>
+
+    <p>
+      Key features of the application include:
+    </p>
+
+    <ul>
+      <li>Product browsing and category filtering</li>
+      <li>Search and sorting functionality</li>
+      <li>Shopping cart with session management</li>
+      <li>Checkout flow with tax calculations by province</li>
+      <li>Order creation and confirmation system</li>
+    </ul>
+
+    <p>
+      The goal of this project is to demonstrate practical skills in Ruby on Rails, database design,
+      and responsive UI development.
+    </p>
+  </div>
+
+  <div class="product-actions" style="margin-top: 24px;">
+    <%= link_to "Back to Home", root_path, class: "button-link secondary-button" %>
+  </div>
+</div>

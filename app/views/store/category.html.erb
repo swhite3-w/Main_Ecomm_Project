@@ -1,25 +1,20 @@
-<p>
-  <%= link_to "Home", root_path %> > <%= @category.name %>
-</p>
+<div class="content-card">
+  <p class="section-subtext">
+    <%= link_to "Home", root_path %> &gt; <%= @category.name %>
+  </p>
 
-<h1><%= @category.name %></h1>
-<p><%= @category.description %></p>
+  <h1><%= @category.name %></h1>
+  <p class="section-subtext">
+    <%= @category.description.presence || "Browse items in this collection." %>
+  </p>
 
-<div class="products-grid">
-  <% @products.each do |product| %>
-    <div class="product-card">
-      <% if product.image_url.present? %>
-        <%= image_tag "placeholder.jpg", alt: "Artwork preview coming soon", class: "product-image" %>
-      <% end %>
-
-      <h3><%= link_to product.title, product_path(product) %></h3>
-      <p>$<%= sprintf("%.2f", product.price) %></p>
-    </div>
-  <% end %>
+  <div class="products-grid">
+    <% @products.each do |product| %>
+      <%= render partial: "product_card", locals: { product: product } %>
+    <% end %>
+  </div>
 </div>
 
-<div>
+<div class="category-pagination-inside">
   <%= paginate @products %>
 </div>
-
-<p><%= link_to "Back to Home", root_path %></p>
