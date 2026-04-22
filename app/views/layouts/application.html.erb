@@ -11,20 +11,42 @@
   </head>
 
   <body>
-    <nav>
-      <%= link_to "Home", root_path %> |
-      <%= link_to "Admin", admin_root_path %> |
-      <%= link_to "Cart", cart_path %>
-    </nav>
+    <header class="site-header">
+      <div class="nav-container">
+        <div class="site-brand">
+          <h1 class="site-title">ArtForYou</h1>
+          <p class="site-subtitle">Curated pieces with a refined shopping experience.</p>
+        </div>
 
-    <hr>
+        <nav class="site-nav">
+          <%= link_to "Home", root_path, class: "nav-link" %>
+          <%= link_to "Cart", cart_path, class: "nav-link" %>
+          <%= link_to "Contact", contact_path, class: "nav-link" %>
 
-    <% flash.each do |type, message| %>
-      <div class="flash <%= type %>">
-        <%= message %>
+          <% if customer_signed_in? %>
+            <%= link_to "Edit Account", edit_customer_registration_path, class: "nav-link" %>
+            <%= button_to "Logout", destroy_customer_session_path,
+                  method: :delete,
+                  class: "nav-button",
+                  form: { class: "inline-logout-form" } %>
+          <% else %>
+            <%= link_to "Sign Up", new_customer_registration_path, class: "nav-link" %>
+            <%= link_to "Login", new_customer_session_path, class: "nav-link" %>
+          <% end %>
+
+          <%= link_to "Admin", admin_root_path, class: "nav-link admin-link" %>
+        </nav>
       </div>
-    <% end %>
+    </header>
 
-    <%= yield %>
+    <main class="page-container">
+      <% flash.each do |type, message| %>
+        <div class="flash-message <%= type == 'notice' ? 'flash-notice' : 'flash-alert' %>">
+          <%= message %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
   </body>
 </html>
