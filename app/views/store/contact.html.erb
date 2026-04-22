@@ -1,5 +1,29 @@
-<h1><%= @page&.title || "Contact" %></h1>
+<div class="content-card">
+  <h1>Contact</h1>
 
-<p><%= @page&.content || "Contact page coming soon." %></p>
+  <p class="section-subtext">
+    Have questions, feedback, or inquiries about this project?
+    We'd love to hear from you.
+  </p>
 
-<p><%= link_to "Back to Home", root_path %></p>
+  <div style="margin-top: 16px; line-height: 1.6;">
+    <p>
+      For any questions regarding the ArtForYou project, including features,
+      functionality, or future improvements, please reach out directly:
+    </p>
+
+    <p>
+      <strong>Name:</strong> Sakaria White<br>
+      <strong>Email:</strong>
+      <a href="mailto:sakariawhite@gmail.com">sakariawhite@gmail.com</a>
+    </p>
+
+    <p>
+      Responses will be provided as soon as possible.
+    </p>
+  </div>
+
+  <div class="product-actions" style="margin-top: 24px;">
+    <%= link_to "Back to Home", root_path, class: "button-link secondary-button" %>
+  </div>
+</div>

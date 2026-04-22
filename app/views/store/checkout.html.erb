@@ -1,79 +1,94 @@
-<h1>Checkout</h1>
+<div class="content-card">
+  <h1>Checkout</h1>
 
-<% if @cart_items.empty? %>
-  <p>Your cart is empty.</p>
-  <p><%= link_to "Return to Cart", cart_path %></p>
-<% else %>
-  <h2>Order Items</h2>
+  <% if @cart_items.empty? %>
+    <p>Your cart is empty.</p>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Quantity</th>
-        <th>Line Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @cart_items.each do |item| %>
-        <tr>
-          <td><%= item[:product].title %></td>
-          <td><%= item[:quantity] %></td>
-          <td><%= number_to_currency(item[:line_total]) %></td>
-        </tr>
+    <div class="cart-actions">
+      <%= link_to "Return to Cart", cart_path, class: "button-link secondary-button" %>
+    </div>
+  <% else %>
+    <h2>Order Items</h2>
+
+    <div class="cart-table-wrapper">
+      <table class="cart-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Line Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @cart_items.each do |item| %>
+            <tr>
+              <td><%= item[:product].title %></td>
+              <td><%= item[:quantity] %></td>
+              <td><%= number_to_currency(item[:line_total]) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="checkout-section">
+      <h2>Preview Taxes</h2>
+
+      <%= form_with url: checkout_path, method: :get, local: true, html: { class: "checkout-preview-form" } do %>
+        <div class="checkout-field">
+          <%= label_tag :province_id, "Select Province to Preview Taxes" %>
+          <%= select_tag :province_id,
+              options_from_collection_for_select(@provinces, :id, :name, @selected_province&.id),
+              prompt: "Choose a province",
+              onchange: "this.form.submit();" %>
+        </div>
       <% end %>
-    </tbody>
-  </table>
+    </div>
 
-  <hr>
+    <div class="checkout-section checkout-summary">
+      <h2>Order Summary</h2>
+      <p><strong>Subtotal:</strong> <%= number_to_currency(@subtotal) %></p>
+      <p><strong>GST:</strong> <%= number_to_currency(@gst_total) %></p>
+      <p><strong>PST:</strong> <%= number_to_currency(@pst_total) %></p>
+      <p><strong>HST:</strong> <%= number_to_currency(@hst_total) %></p>
+      <p><strong>Estimated Grand Total:</strong> <%= number_to_currency(@grand_total) %></p>
+    </div>
 
-  <%= form_with url: checkout_path, method: :get, local: true do %>
-    <div>
-      <%= label_tag :province_id, "Select Province to Preview Taxes" %><br>
-      <%= select_tag :province_id,
-          options_from_collection_for_select(@provinces, :id, :name, @selected_province&.id),
-          prompt: "Choose a province",
-          onchange: "this.form.submit();" %>
+    <div class="checkout-section">
+      <h2>Customer Information</h2>
+
+      <%= form_with url: place_order_path, method: :post, local: true, html: { class: "checkout-form" } do %>
+
+        <!-- Row 1: Name + Province -->
+        <div class="checkout-row">
+          <div class="checkout-field">
+            <%= label_tag :customer_name, "Full Name" %>
+            <%= text_field_tag :customer_name, params[:customer_name] %>
+          </div>
+
+          <div class="checkout-field">
+            <%= label_tag :province_id, "Province" %>
+            <%= select_tag :province_id,
+                options_from_collection_for_select(@provinces, :id, :name, @selected_province&.id),
+                prompt: "Choose a province" %>
+          </div>
+        </div>
+
+        <!-- Row 2: Email -->
+        <div class="checkout-row">
+          <div class="checkout-field">
+            <%= label_tag :customer_email, "Email Address" %>
+            <%= email_field_tag :customer_email, params[:customer_email] %>
+          </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="checkout-actions">
+          <%= submit_tag "Place Order", class: "primary-button checkout-btn" %>
+          <%= link_to "Return to Cart", cart_path, class: "button-link secondary-button" %>
+        </div>
+
+      <% end %>
     </div>
   <% end %>
-
-  <h2>Order Summary</h2>
-  <p><strong>Subtotal:</strong> <%= number_to_currency(@subtotal) %></p>
-  <p><strong>GST:</strong> <%= number_to_currency(@gst_total) %></p>
-  <p><strong>PST:</strong> <%= number_to_currency(@pst_total) %></p>
-  <p><strong>HST:</strong> <%= number_to_currency(@hst_total) %></p>
-  <p><strong>Estimated Grand Total:</strong> <%= number_to_currency(@grand_total) %></p>
-
-  <hr>
-
-  <h2>Customer Information</h2>
-
-  <%= form_with url: place_order_path, method: :post, local: true do %>
-    <div>
-      <%= label_tag :customer_name, "Full Name" %><br>
-      <%= text_field_tag :customer_name, params[:customer_name] %>
-    </div>
-
-    <br>
-
-    <div>
-      <%= label_tag :customer_email, "Email Address" %><br>
-      <%= email_field_tag :customer_email, params[:customer_email] %>
-    </div>
-
-    <br>
-
-    <div>
-      <%= label_tag :province_id, "Province" %><br>
-      <%= select_tag :province_id,
-          options_from_collection_for_select(@provinces, :id, :name, @selected_province&.id),
-          prompt: "Choose a province" %>
-    </div>
-
-    <br>
-
-    <div>
-      <%= submit_tag "Place Order" %>
-    </div>
-  <% end %>
-<% end %>
+</div>

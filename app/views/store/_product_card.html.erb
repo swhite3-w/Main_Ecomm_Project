@@ -1,11 +1,31 @@
 <div class="product-card">
-  <% if product.image_url.present? %>
-    <img src="<%= product.image_url %>" width="200">
-  <% end %>
+  <div class="product-image-wrapper">
+    <%= image_tag "placeholder.jpg", alt: "Artwork preview coming soon", class: "product-image" %>
+  </div>
 
-  <h3><%= link_to product.title, product_path(product) %></h3>
-  <p><%= truncate(product.description, length: 80) %></p>
-  <p>$<%= sprintf("%.2f", product.price) %></p>
+  <div class="product-card-body">
+    <h3 class="product-title"><%= product.title %></h3>
 
-  <%= button_to "Add to Cart", add_to_cart_path(product), method: :post %>
+    <% if product.respond_to?(:category) && product.category.present? %>
+      <p class="product-meta"><strong>Category:</strong> <%= product.category.name %></p>
+    <% end %>
+
+    <p class="product-price">$<%= sprintf("%.2f", product.price) %></p>
+
+    <% if product.description.present? %>
+      <p class="product-description"><%= truncate(product.description, length: 100) %></p>
+    <% else %>
+      <p class="product-description">A curated piece from the ArtForYou collection.</p>
+    <% end %>
+
+    <div class="product-actions">
+      <%= link_to "View Details", product_path(product), class: "button-link secondary-button" %>
+      <%= button_to "Add to Cart",
+        add_to_cart_path(product),
+        method: :post,
+        class: "add-to-cart-btn",
+        form_class: "add-to-cart-form" %>
+        
+    </div>
+  </div>
 </div>
