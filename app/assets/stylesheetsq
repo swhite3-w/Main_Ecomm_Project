@@ -1,0 +1,15 @@
+[33m2087260[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Added devise and customer base files and relationships.
+[33md989fb6[m Altered the checkout process to allow the preview of the grand total before confirmation
+[33m2721eab[m Fixed an error with the store controller caused by a forgotten end tag when discarding debug methods
+[33m480750a[m Updated admin orders and model to further fit 3.2.1 requirement
+[33ma9222c8[m added Orders to the admin dashboard and fixed similar issue with ransack for orders in the app model
+[33m398d65e[m Adjusted province model to fit validation, added provinces to admin dashboard to edit taxes
+[33me477f0f[m Fixing an error with last commit
+[33mfe0602e[m Added confirmation page, fixed issues with the database customer table causing validation failure.
+[33m63ca751[m Added checkout link to the cart, fixed error in store controller, and added the checkout page as a whole
+[33m17157fa[m Fixed spacing, added methods for order details in store_controller
+[33m8f98904[m Fixed some errors in the admin caused by added parameters.
+[33m33ebbfd[m Added relationship and validations to province model
+[33mc7705c6[m Added forgotten province model
+[33m79f094b[m Added checkout and order confirmation routes
+[33m4f39d16[m Added relationships and validations to the new models.

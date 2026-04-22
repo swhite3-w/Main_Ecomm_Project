@@ -1,50 +1,60 @@
-<h1>ArtForYou</h1>
-<p>Home</p>
+<div class="content-card">
+  <h2 class="section-heading">Search the Collection</h2>
+  <p class="section-subtext">Filter by keyword, category, or product status.</p>
 
-<nav>
-  <%= link_to "About", about_path %> |
-  <%= link_to "Contact", contact_path %>
-</nav>
+  <%= form_with url: root_path, method: :get, local: true do %>
+    <div>
+      <%= label_tag :keyword, "Search" %>
+      <%= text_field_tag :keyword, params[:keyword], placeholder: "Search by title or description" %>
+    </div>
 
-<%= form_with url: root_path, method: :get, local: true do %>
-  <div>
-    <%= label_tag :keyword, "Search" %>
-    <%= text_field_tag :keyword, params[:keyword] %>
-  </div>
+    <div>
+      <%= label_tag :category_id, "Category" %>
+      <%= select_tag :category_id,
+          options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
+          include_blank: "All Categories" %>
+    </div>
 
-  <div>
-    <%= label_tag :category_id, "Category" %>
-    <%= select_tag :category_id,
-        options_from_collection_for_select(@categories, :id, :name, params[:category_id]),
-        include_blank: "All Categories" %>
-  </div>
+    <div>
+      <%= label_tag :filter, "Filter" %>
+      <%= select_tag :filter,
+          options_for_select([
+            ["All", ""],
+            ["New", "new"],
+            ["Recently Updated", "recent"],
+            ["On Sale", "on_sale"]
+          ], params[:filter]) %>
+    </div>
 
-<%= select_tag :filter,
-  options_for_select([
-    ["All", ""],
-    ["New", "new"],
-    ["Recently Updated", "recent"],
-    ["On Sale", "on_sale"]
-  ], params[:filter]) %>
-
-  <%= submit_tag "Search" %>
-<% end %>
-
-<h2>Browse by Category</h2>
-<ul>
-  <% @categories.each do |category| %>
-    <li><%= link_to category.name, category_path(category) %></li>
+    <div class="product-actions">
+      <%= button_tag "Search", type: "submit", class: "search-submit" %>
+      <%= link_to "Clear Filters", root_path, class: "button-link secondary-button" %>
+    </div>
   <% end %>
-</ul>
-
-<h2>Products</h2>
-
-<div class="products-grid">
-    <% @products.each do |product| %>
-        <%= render partial: "product_card", locals: { product: product } %>
-    <% end %>
 </div>
 
-<div>
-  <%= paginate @products %>
+<div class="content-card">
+  <h2 class="section-heading">Browse by Category</h2>
+  <p class="section-subtext">Shop by collection to find the style you want faster.</p>
+
+  <div class="product-actions">
+    <% @categories.each do |category| %>
+      <%= link_to category.name, category_path(category), class: "button-link secondary-button" %>
+    <% end %>
+  </div>
+</div>
+
+<div class="content-card">
+  <h2 class="section-heading">Products</h2>
+  <p class="section-subtext">Discover available artwork from our collection.</p>
+
+  <div class="products-grid">
+    <% @products.each do |product| %>
+      <%= render partial: "product_card", locals: { product: product } %>
+    <% end %>
+  </div>
+
+  <div style="margin-top: 24px;">
+    <%= paginate @products %>
+  </div>
 </div>
